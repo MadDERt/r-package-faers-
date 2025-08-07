@@ -1,8 +1,8 @@
 ---
-title_full: Template for preparing a submission to Bioinformatics using RMarkdown
+title_full: "faers: An R Package for Seamlessly Bridging the FAERS Database to R and Delivering Unified Pharmacovigilance Workflows"
 title_short: Bioinformatics Rmd Template
 
-# One of the following below. See https://academic.oup.com/bioinformatics/pages/instructions_for_authors#Types%20of%20Manuscript
+# One of the following below. See https://academic.oup.com/bioinformatics/pages/instructions_for_authors#Types%20of%20Manuscript   
 # one of `Original Paper`, `Discovery Note`, `Applications Note`, `Review`, `Letter to the Editor`, `Conference Paper`    
 manuscript_type: Application Note
 
@@ -10,7 +10,7 @@ manuscript_type: Application Note
 copyrightyear: '`r format(Sys.Date(), "%Y")`'
 pubyear: '`r format(Sys.Date(), "%Y")`'
 
-# One of the following below. See https://academic.oup.com/bioinformatics/pages/instructions_for_authors#Detailed%20Scope%20Guidelines
+# One of the following below. See https://academic.oup.com/bioinformatics/pages/instructions_for_authors#Detailed%20Scope%20Guidelines   
 # Genome analysis
 # Sequence analysis
 # Phylogenetics
@@ -29,29 +29,32 @@ access_date:
     year: YY
       
 author:
-  - name: Alice Anonymous
-    affiliation: "1,2"
-  - name: Bob Security
+  - name: Shixiang Wang
+    affiliation: "1"
+  - name: Yun Peng
+    affiliation: "2"
+  - name: Zhangyu Wang
     affiliation: "1"
       
 address:
   - code: 1
-    address: Some Institute of Technology, Department, Street, City, State, Zip
+    address:  Central South University
   - code: 2
-    address: Another University Department, Street, City, State, Zip
+    address:  aaa
  
 # Full email address to be given, preferably an institution email address.  
-corresponding_author_text: "To whom correspondence should be addressed. E-mail: bob\\@email.com"
-corresponding_author_email: "bob\\@email.com"
+corresponding_author_text: "To whom correspondence should be addressed. E-mail: qq"
+corresponding_author_email: "212&#64;qq.com"
   
-motivation: |
-  This section should specifically state the scientific question within the context of the field of study.
+motivation:  |
+ The FDA Adverse Event Reporting System (FAERS) serves as a critical database for monitoring post-marketing drug safety.However, the primary focus on safety signal detection within FAERS has left a significant gap in integrating pharmacovigilance analysis with genetic tools.Thus, we aim to effectively utilize FAERS data to bridge pharmacovigilance with genetic analysis, thereby enhancing the precision of safety assessments and facilitating the development of personalized medicine approaches.
+
   
 results: |
-  This section should summarize the scientific advance or novel results of the study, and its impact on computational biology.
+ We developed the R package faers, which seamlessly connects the FAERS database to the R programming language and provides a unified approach for the seamless execution of pharmacovigilance analysis and the integration of genetic tools in R.
 
 availability: |
-  This section should state software availability if the paper focuses mainly on software development or on the implementation of an algorithm. Examples are: 'Freely available on the web at XXX.' Website implemented in Perl, MySQL and Apache, with all major browsers supported'; or 'Source code and binaries freely available for download at URL, implemented in C++ and supported on linux and MS Windows'. The complete address (URL) should be given. If the manuscript describes new software tools or the implementation of novel algorithms the software must be freely available to non-commercial users. Authors must also ensure that the software is available for a full TWO YEARS following publication. The editors of Bioinformatics encourage authors to make their source code available and, if possible, to provide access through an open source license.
+ faers is available on CRAN and on GitHub at (https&#58;&#47;&#47;github.com/Yunuuuu/faers).
 
 supplementary_info: |
   Supplementary data are available at Bioinformatics Online.
@@ -59,9 +62,12 @@ supplementary_info: |
 output:
   rticles::bioinformatics_article:
     citation_package: natbib
-    
 bibliography: bibliography.bib
 ---
+
+```{r setup, include=FALSE}
+devtools::load_all("/home/wzy/projects/test/faers")
+```
 
 Introduction
 ============
@@ -71,7 +77,7 @@ Cite others using bracket notation [@pepe2003statistical]. Can also cite with @z
 <!-- naked refs don't work because of the \nolinkurl problems -->
 <!-- Or refer to specific people e.g. -@Yoo03 like so. -->
 
-Instructions for authors are available [online](http://www.oxfordjournals.org/our_journals/bioinformatics/for_authors/general.html).
+The FDA Adverse Event Reporting System (FAERS) is the core database for post-marketing safety monitoring of all approved drugs and therapeutic biologics by the FDA. As required by regulations, it consolidates mandatory adverse event reports submitted by pharmaceutical companies, as well as voluntary first-hand information reported by individuals and healthcare professionals. The data, which has been collected since January 2004 and is continuously updated on a quarterly basis, includes eight types of documents: demographic and administrative information, detailed drug information, indications for use, report sources, drug start and end dates, patient outcomes, reports of therapeutic failure, and adverse events. Its core value is reflected in key areas such as early safety signal detection, risk assessment, and drug labeling revisions, providing direct evidence for the FDA to formulate drug safety policies and risk management measures.
 
 Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
 
