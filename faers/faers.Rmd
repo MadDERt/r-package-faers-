@@ -66,71 +66,38 @@ bibliography: bibliography.bib
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
 devtools::load_all("/home/wzy/projects/test/faers")
+library(faers)
+faers_meta()
+data1<-faers(2021,"q1",dir = "~/projects/test/data",compress_dir ="~/projects/test/data")
+data_stand <- faers_standardize(data1, "~/projects/test/meddra")
+data_stand <- faers_dedup(data_stand)
+```
+
+```{r analysis, include=FALSE}
+insulin_names <- "insulin"
+insulin_pattern <- paste(insulin_names, collapse = "|")
+fda_insulin <- fda_drugs()[
+    grepl(insulin_pattern, ActiveIngredient, ignore.case = TRUE)
+]
 ```
 
 Introduction
 ============
 
-Cite others using bracket notation [@pepe2003statistical]. Can also cite with @zou2005regularization.
-
-<!-- naked refs don't work because of the \nolinkurl problems -->
-<!-- Or refer to specific people e.g. -@Yoo03 like so. -->
-
 The FDA Adverse Event Reporting System (FAERS) is the core database for post-marketing safety monitoring of all approved drugs and therapeutic biologics by the FDA. As required by regulations, it consolidates mandatory adverse event reports submitted by pharmaceutical companies, as well as voluntary first-hand information reported by individuals and healthcare professionals. The data, which has been collected since January 2004 and is continuously updated on a quarterly basis, includes eight types of documents: demographic and administrative information, detailed drug information, indications for use, report sources, drug start and end dates, patient outcomes, reports of therapeutic failure, and adverse events. Its core value is reflected in key areas such as early safety signal detection, risk assessment, and drug labeling revisions, providing direct evidence for the FDA to formulate drug safety policies and risk management measures.
 
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
+Currently, FAERS research has formed a tripartite landscape of "official—open-source—R ecosystem": The official path still requires researchers to download quarterly files, deduplicate and clean them, recode with MedDRA, and then manually invoke algorithms. Although the FAERS Public Dashboard provides zero-code visualization and download, it lacks a batch analysis interface. In the open-source platform, OpenVigil 2.1, by pre-hosting cleaned data from 2004 to 2022, supports one-click output of PRR/ROR after online setting of drug-event-time window, but its cross-platform reproducibility is limited. AERSMine, leveraging Spark to integrate 2.1 million reports, offers interactive differential efficacy forest plots, yet still cannot directly connect to the Bioconductor genetics pipeline. DiAna_package encapsulates downloading, cleaning, standardization, signaling, and genetics integration into a single R command, being the first to incorporate population genotypes into the signal model, but it leaves gaps in environment locking and full-field integrity, which provides an entry point for the proposed unified faers framework in this paper.
 
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-Approach
-============
-
-Here is how to include math equations in the document (bounded by `$$`):
-
-$$
-\begin{aligned}
-(x+y)^3&=(x+y)(x+y)^2\\
-       &=(x+y)(x^2+2xy+y^2) \label{eqn:example} \\
-       &=x^3+3x^2y+3xy^3+x^3. 
-\end{aligned}
-$$
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-<!--
-problems with longtable and 2-column format. see pnas_template and https://github.com/jgm/pandoc/issues/1023
-
-  Species                    CBS     CV     G3
-  ----------------------- ------ ------ ------
-  1\. Acetaldehyde           0.0    0.0    0.0
-  2\. Vinyl alcohol          9.1    9.6   13.5
-  3\. Hydroxyethylidene     50.8   51.2   54.0
-
-  : Comparison of the fitted potential energy surfaces and ab initio
-  benchmark electronic energy calculations
--->
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-```{r figure, echo = FALSE, fig.width = 3.5, fig.cap = 'Figure from an Rmd chunk.'}
-plot(rnorm(10000))
-```
+To systematically address the shortcomings of existing tools in terms of reproducibility, integration into the R ecosystem, and in-depth mining of genetic information, we developed the faers package. This package connects the FAERS database to R through a unified pipeline, enabling one-click data download, cleaning, standardization, and signal detection. It also seamlessly integrates with the Bioconductor genetics analysis framework, supporting high-throughput association analysis of population-differentiated polymorphisms and drug pathways, thereby providing reproducible and scalable decision support for precision medicine.
 
 Methods
 ============
 
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
+The workflow for pharmacovigilance analysis using the faers package mainly consists of the following four steps: (i) inspecting FAERS metadata; (ii) downloading and parsing the quarterly FAERS data files; (iii) standardization and deduplication; (iv) conducting pharmacovigilance analysis.
 
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-
-Sub-Method
+Check metadata of FAERS
 -------------
 
 Details for Method 1. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.

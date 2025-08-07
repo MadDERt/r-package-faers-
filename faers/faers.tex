@@ -68,9 +68,6 @@ Bioinformatics Online.}
 
 \section{Introduction}
 
-Cite others using bracket notation \citep{pepe2003statistical}. Can also
-cite with \citet{zou2005regularization}.
-
 The FDA Adverse Event Reporting System (FAERS) is the core database for
 post-marketing safety monitoring of all approved drugs and therapeutic
 biologics by the FDA. As required by regulations, it consolidates
@@ -86,73 +83,44 @@ early safety signal detection, risk assessment, and drug labeling
 revisions, providing direct evidence for the FDA to formulate drug
 safety policies and risk management measures.
 
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
+Currently, FAERS research has formed a tripartite landscape of
+``official---open-source---R ecosystem'': The official path still
+requires researchers to download quarterly files, deduplicate and clean
+them, recode with MedDRA, and then manually invoke algorithms. Although
+the FAERS Public Dashboard provides zero-code visualization and
+download, it lacks a batch analysis interface. In the open-source
+platform, OpenVigil 2.1, by pre-hosting cleaned data from 2004 to 2022,
+supports one-click output of PRR/ROR after online setting of
+drug-event-time window, but its cross-platform reproducibility is
+limited. AERSMine, leveraging Spark to integrate 2.1 million reports,
+offers interactive differential efficacy forest plots, yet still cannot
+directly connect to the Bioconductor genetics pipeline. DiAna\_package
+encapsulates downloading, cleaning, standardization, signaling, and
+genetics integration into a single R command, being the first to
+incorporate population genotypes into the signal model, but it leaves
+gaps in environment locking and full-field integrity, which provides an
+entry point for the proposed unified faers framework in this paper.
 
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-\section{Approach}
-
-Here is how to include math equations in the document (bounded by
-\texttt{\$\$}):
-
-\[
-\begin{aligned}
-(x+y)^3&=(x+y)(x+y)^2\\
-       &=(x+y)(x^2+2xy+y^2) \label{eqn:example} \\
-       &=x^3+3x^2y+3xy^3+x^3. 
-\end{aligned}
-\]
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-Describe the approach. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-\begin{figure}
-\centering
-\includegraphics{faers_files/figure-latex/figure-1.pdf}
-\caption{Figure from an Rmd chunk.}
-\end{figure}
+To systematically address the shortcomings of existing tools in terms of
+reproducibility, integration into the R ecosystem, and in-depth mining
+of genetic information, we developed the faers package. This package
+connects the FAERS database to R through a unified pipeline, enabling
+one-click data download, cleaning, standardization, and signal
+detection. It also seamlessly integrates with the Bioconductor genetics
+analysis framework, supporting high-throughput association analysis of
+population-differentiated polymorphisms and drug pathways, thereby
+providing reproducible and scalable decision support for precision
+medicine.
 
 \section{Methods}
 
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem
-ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
+The workflow for pharmacovigilance analysis using the faers package
+mainly consists of the following four steps: (i) inspecting FAERS
+metadata; (ii) downloading and parsing the quarterly FAERS data files;
+(iii) standardization and deduplication; (iv) conducting
+pharmacovigilance analysis.
 
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem
-ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-Detailed methods. Lorem ipsum ad nauseum. Introduce your topic. Lorem
-ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
-Introduce your topic. Lorem ipsum ad nauseum. Introduce your topic.
-Lorem ipsum ad nauseum.
-
-\subsection{Sub-Method}
+\subsection{Check metadata of FAERS}
 
 Details for Method 1. Lorem ipsum ad nauseum. Introduce your topic.
 Lorem ipsum ad nauseum. Introduce your topic. Lorem ipsum ad nauseum.
